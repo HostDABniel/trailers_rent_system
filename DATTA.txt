@@ -1,0 +1,21 @@
+
+
+ftp.northwest.com.mx
+Usuario: webmaster@northwest.com.mx
+Pass: Yasser1985
+
+
+Base de Datos
+
+Nombre: northwh0_concresist
+Usuario:  northwh0_sistcon
+password: lamismacon!
+
+------------------------------
+
+FTP Carpeta de Stistema 
+
+Usuario sistema@bmxlife.tv
+Contraseña: Sis111ste
+Servidor: ftp://m2000175.ferozo.com
+
