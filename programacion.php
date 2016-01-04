@@ -6,6 +6,8 @@ include ("panel/rempla_fech.php");
 $mas = $_POST["mas"];if($mas == ''){$mas = $_REQUEST["mas"];};
 $otro_hoy = $_POST["otro_hoy"];if($otro_hoy == ''){$otro_hoy = $_REQUEST["otro_hoy"];};
 $buscar = $_POST["buscar"];if($buscar == ''){$buscar = $_REQUEST["buscar"];};
+$tipo = $_POST["tipo"];if($tipo == ''){$tipo = $_REQUEST["tipo"];};
+$id = $_POST["id"];if($id == ''){$id = $_REQUEST["id"];};
 
 
 if ($_SESSION["tipo"] == 'admin'){
@@ -303,22 +305,6 @@ $rowf = mysql_fetch_array($resultf);
 
 
 <div class="onecolc_tto">
-<!--
-<div class="menu_onecolc">
-	<a href="" class="menu_onecolc_btn"><img src="images/USUARIO.svg" alt="Usuarios" /></a>
-	<a href="alquileres.php" class="menu_onecolc_btn"><img src="images/CLIENTES.svg" alt="Alquileres" /></a>
-	<a href="ventas.php" class="menu_onecolc_btn"><img src="images/CLIENTES.svg" alt="Ventas" /></a>
-	<a href="cliente.php" class="menu_onecolc_btn"><img src="images/CLIENTES.svg" alt="Clientes" /></a>
-	<a href="" class="menu_onecolc_btn"><img src="images/ico-remolque.svg" alt="Sucursales" /></a>
-	<a href="productos.php" class="menu_onecolc_btn"><img src="images/CLIENTES.svg" alt="Productos" /></a>
-	<a href="" class="menu_onecolc_btn"><img src="images/CARTERA.svg" alt="Cartera" /></a>
-	<a href="" class="menu_onecolc_btn"><img src="images/REPORTES.svg" alt="Reportes" /></a>
-	<a href="" class="menu_onecolc_btn"><img src="images/VENDEDORES.svg" alt="Vendedores" /></a>
-	<a href="" class="menu_onecolc_btn"><img src="images/PROD_FINANCIERO.svg" alt="Productos Financieros" /></a>
-	<a href="" class="menu_onecolc_btn"><img src="images/EMPENOS.svg" alt="Empeños" /></a>
-	<a href="" class="menu_onecolc_btn"><img src="images/COBRANZAS.svg" alt="Cobranzas" /></a>
-</div>--> 
-
 
 
 
@@ -326,8 +312,25 @@ $rowf = mysql_fetch_array($resultf);
 
 
 
-<span class="titlecol tcolor eiix">ALQUILERES DE REMOLQUES - VENTAS DE PRODUCTOS</span>
-
+<span class="titlecol tcolor eiix">
+	<a href="programacion.php" class="<?php if($tipo=='' || $tipo=='3'){echo 'boldcss';};?>">ALQUILERES DE REMOLQUES</a> - 
+	<a href="programacion.php?tipo=1" class="<?php if($tipo=='1'){echo 'boldcss';};?>">VENTAS DE PRODUCTOS</a> 
+<?php if($tipo == '3'){?>
+<div class="titulo_list">
+	Listado de alquileres
+	
+	<?php
+		if($id != ''){
+			$sqlr4 = "SELECT * FROM remolques  WHERE id='".$id."' ORDER BY id DESC ";
+			$resultr4 = mysql_query($sqlr4, $conn1);
+			$rowr4 = mysql_fetch_array($resultr4);
+			echo 'Remolque: ('.$rowr4["numero"].') '.$rowr4["modelo"].' - '.$rowr4["placas"];
+			echo '<br><a href="programacion.php?tipo=3">(Ver todos los alquileres)</a>';
+		};
+	?>
+</div>
+<?php };?>
+</span>
 <div class="divline"></div>
 <div id="stickem"></div>
  
@@ -375,14 +378,20 @@ $rowf = mysql_fetch_array($resultf);
    ?>
     </div>  
     
+
+
 <?php if($_SESSION["tipo"] != 'user'){?>
-<div class="ic-idel"><a href="agregar-libra.php?id=<?php echo $row["id"];?>" target="_self"><img src="editaricon.png" width="44" height="44" border="0" /></a></div>
+<div class="ic-idel">
+	<a href="programacion.php?tipo=3&id=<?php echo $row["id"];?>" target="_self">
+		<img src="editaricon.png" width="44" height="44" border="0" />
+	</a>
+</div>
 <?php };?> 
 
 
-<?php 		if($_SESSION["tipo"] == 'admin'){		?>
+<?php 	/*	if($_SESSION["tipo"] == 'admin'){		?>
 <div class="ic-idel"><a href="eliminar-libra.php?id=<?php echo $row["id"];?>" target="_self"><img src="delete1.png" width="44" height="44" border="0" /></a></div>
-<?php 		};		?>
+<?php 		};		///*/?>
 
 
     <br /> 
@@ -395,8 +404,8 @@ $rowf = mysql_fetch_array($resultf);
 <?php if($tipo=='1'){////////////////////////////////////////    VENTA DE PRODUCTOS?> 
   <div id="sticker">  
     <div class="time-j ti">CODIGO</div>
-    <div class="t-contact">COSTO</div>
     <div class="t-contact">NOMBRE</div>
+    <div class="t-contact">COSTO</div>
     <div class="t-desit">STOCK</div>
     <!--<div class="t-desit">PROGRESO</div>-->
     <div class="t-progres"></div>
@@ -409,38 +418,35 @@ $rowf = mysql_fetch_array($resultf);
 	
 	$sql2 = "SELECT * FROM venta_prod WHERE producto='".$row["id"]."' AND fecha>'".$row["fecha"]."' ORDER BY id DESC ";
 	$result2 = mysql_query($sql2, $conn1);
-	$row2 = mysql_fetch_array($result2);  
+	$total_prodvendidos = mysql_num_rows($result2);
+//	$row2 = mysql_fetch_array($result2);  
+	$total_enstock = 0;
+	$total_enstock = $row["cantidad"] - $total_prodvendidos;
+	//echo $total_enstock.' = '.$row["cantidad"]." - ".$total_prodvendidos.'<br>';
   ?>
   <div class="initem">
     <div class="time-j ti">  <?php echo $row["codigo"]// codigo		?>	</div>
-    <div class="contact">  <?php echo $row["costo"]// costo	?>	</div>
     <div class="contact">  <?php echo $row["nombre"]// nombre	?>	</div>
+    <div class="contact">  $ <?php echo $row["costo"]// costo	?>	</div>
     <div class="t-progres imgalcost nitop" style="color:#777;">  
     <?php // $created
-    $fecha_alquiler = strtotime ( '+2 hour' , strtotime ( $row2["fecha_alquilada"] ) );
-    $fecha_alquiler = date ( 'Y/m/d H:i:s' , $fecha_alquiler );
-    //echo $created.'<br>'.$fecha_alquiler.'<br>';
-    if($row2["fecha_devolucion"]=='0000-00-00 00:00:00' && $fecha_alquiler > $created){//si no devolvio pero todavia esta en fecha
-    	$datetime1 = new DateTime($created);
-		$datetime2 = new DateTime($fecha_alquiler);
-		$interval = $datetime1->diff($datetime2);
-		//echo $interval->format('%R%a días');// + 2 Dias
-		echo 'Alquilado hasta:<br>'.$fecha_alquiler.' Faltan ';
-		echo $interval->format('%a días');
-
-    }elseif($row2["fecha_devolucion"]=='0000-00-00 00:00:00' && $fecha_alquiler < $created){
-    	echo '<strond style="color:#FF0000;">Alquilado hasta:<br>'.$fecha_alquiler.'</strong>';
-    }else{echo 'Disponible';};
-   ?>
+    	//echo 'En stock:'.$row["cantidad"];
+    if($total_enstock > '0'){
+    	echo 'Vendidos desde el ultimo control de stock:'.$total_prodvendidos;
+    	echo '<br>En stock:'.$total_enstock;
+    }else{
+    	echo '<span style="color:#FF0000;">NO HAY PRODUCTOS EN STOCK</span>';
+    };
+   	?>
     </div>  
     
 <?php if($_SESSION["tipo"] != 'user'){?>
-<div class="ic-idel"><a href="agregar-libra.php?id=<?php echo $row["id"];?>" target="_self"><img src="editaricon.png" width="44" height="44" border="0" /></a></div>
+<div class="ic-idel"><a href="agregar-productos.php?id=<?php echo $row["id"];?>" target="_self"><img src="editaricon.png" width="44" height="44" border="0" /></a></div>
 <?php };?> 
 
 
 <?php 		if($_SESSION["tipo"] == 'admin'){		?>
-<div class="ic-idel"><a href="eliminar-libra.php?id=<?php echo $row["id"];?>" target="_self"><img src="delete1.png" width="44" height="44" border="0" /></a></div>
+<div class="ic-idel"><a href="eliminar-productos.php?id=<?php echo $row["id"];?>" target="_self"><img src="delete1.png" width="44" height="44" border="0" /></a></div>
 <?php 		};		?>
 
 
@@ -452,6 +458,68 @@ $rowf = mysql_fetch_array($resultf);
 
 
 
+<?php if($tipo=='3'){////////////////////////////////////////    ALQUILER DE REMOLQUES LISTADO?> 
+  <div id="sticker">  
+    <div class="t-contact"><?php if($id != ''){echo 'CLIENTE';}else{echo 'REMOLQUE';};?></div>
+    <div class="t-contact">RENTA</div>
+    <div class="t-contact">DEVOLUCION</div>
+    <div class="t-desit">COMENTARIOS</div>
+    <!--<div class="t-desit">PROGRESO</div>-->
+    <div class="t-progres"></div>
+  </div>
+
+ <?php 
+ 	if($id != ''){
+	$sql2 = "SELECT * FROM alquiler WHERE remolque='".$id."' ORDER BY id DESC ";
+	}else{
+	$sql2 = "SELECT * FROM alquiler ORDER BY id DESC ";
+	};
+	$result2 = mysql_query($sql2, $conn1);
+	while($row2 = mysql_fetch_array($result2)){
+
+	$sql1 = "SELECT * FROM remolques  WHERE id='".$row2["remolque"]."' ORDER BY id DESC ";
+	$result1 = mysql_query($sql1, $conn1);
+	$row = mysql_fetch_array($result1);
+
+	$sql3 = "SELECT * FROM cliente  WHERE id='".$row2["cliente"]."' ORDER BY id DESC ";
+	$result3 = mysql_query($sql3, $conn1);
+	$row3 = mysql_fetch_array($result3);
+	 
+  ?>
+  <div class="initem">
+    <div class="contact">  <?php if($id != ''){echo $row3["contacto"];}else{echo $row["modelo"].' ('.$row["medidas"].')';};?></div>
+    <div class="contact">  <?php echo $row2["fecha_renta"]// RENTA	?>	</div>
+    <div class="contact">  <?php // DEVOLUCION
+    	if($row2["fecha_devolucion"]!='0000-00-00 00:00:00'){
+    		echo $row2["fecha_devolucion"];
+    	}else{
+    		echo 'PENDIENTE';
+    	};
+    ?>	</div>
+    <div class="t-progres imgalcost nitop" style="color:#777;">  
+    <?php echo $row["observaciones"]// COMENTARIOS	?>
+    </div>  
+    
+
+    
+<?php if($_SESSION["tipo"] != 'user'){?>
+<div class="ic-idel">
+	<a href="alquiler.php?id=<?php echo $row2["id"];?>" target="_self">
+		<img src="editaricon.png" width="44" height="44" border="0" />
+	</a>
+</div>
+<?php };?> 
+
+
+<?php 	/*	if($_SESSION["tipo"] == 'admin'){		?>
+<div class="ic-idel"><a href="eliminar-libra.php?id=<?php echo $row["id"];?>" target="_self"><img src="delete1.png" width="44" height="44" border="0" /></a></div>
+<?php 		};		///*/?>
+
+
+    <br /> 
+  
+  </div>
+<?php }; };///////////////////////////////////////////////////////////    FIN DE ALQUILER DE REMOLQUES LISTADO?>
   
   
   

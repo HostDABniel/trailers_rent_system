@@ -93,7 +93,7 @@ $mes_ant = date ( 'Y-m-j' , strtotime( "$hoy -1 month" ) );
 			if($tipo == 'user'){echo 'El Usuario se a agregado correctamente - <a href="usuarios.php">VOLVER</a>';};
 			if($tipo == 'suc' && $id == ''){echo 'Su Registro se a agregado correctamente - <a href="sucursales.php">VOLVER</a>';};
 			if($tipo == 'suc' && $id != ''){echo 'Su Registro se a modificado correctamente - <a href="sucursales.php">VOLVER</a>';};
-			if($tipo == 'pro'){echo 'El Producto a actualizado correctamente - <a href="programacion.php">VOLVER</a>';};
+			if($tipo == 'pro'){echo 'El Producto a actualizado correctamente - <a href="productos.php">VOLVER</a>';};
 			if($tipo == 'rem'){echo 'El Remolque a actualizado correctamente - <a href="remolques.php">VOLVER</a>';};
 			if($tipo == 'alq'){echo 'El Alquiler a actualizado correctamente - <a href="programacion.php">VOLVER</a>';};
 ?>

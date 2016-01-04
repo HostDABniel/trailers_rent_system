@@ -9,16 +9,17 @@ $id = $_POST["id"];if($id == ''){$id = $_REQUEST["id"];};
 $nombre = $_POST["nombre"];
 $codigo = $_POST["codigo"];
 $costo = $_POST["costo"];
+$cantidad = $_POST["cantidad"];
 $descripcion = $_POST["descripcion"];
 
 
 	if ($id == ''){ $aqui = '0';
-$sql11 = "INSERT INTO productos(nombre, codigo, costo, descripcion) 
-VALUES('".$nombre."', '".$codigo."', '".$costo."', '".$descripcion."')";
+$sql11 = "INSERT INTO productos(nombre, codigo, costo, descripcion, cantidad) 
+VALUES('".$nombre."', '".$codigo."', '".$costo."', '".$descripcion."', '".$cantidad."')";
 $result = mysql_query($sql11);
 								
 	}else{
-		$sql1 = "UPDATE productos SET nombre='".$nombre."', codigo='".$codigo."', costo='".$costo."',  descripcion='".$descripcion."' WHERE id=".$id;				
+		$sql1 = "UPDATE productos SET nombre='".$nombre."', codigo='".$codigo."', costo='".$costo."', cantidad='".$cantidad."',  descripcion='".$descripcion."' WHERE id=".$id;				
 		$result = mysql_query($sql1);
 	};
 		

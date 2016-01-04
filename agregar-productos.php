@@ -85,10 +85,12 @@ if ($id != ''){
 
   <div class="campitem-cliente">
     <div class="campb">
+    <?php if($id !=''){?><div class="chk_alq_txt">Nombre</div><?php };?>
       <label for="textfield"></label>
       <input type="text" name="nombre" id="textfield" placeholder="Nombre:" value="<?php echo $row["nombre"];?>"/>
     </div>
     <div class="campb dosporch">
+    <?php if($id !=''){?><div class="chk_alq_txt">Codigo</div><?php };?>
       <label for="textfield"></label>
       <input type="text" name="codigo" id="textfield" placeholder="Codigo:" value="<?php echo $row["codigo"];?>"/>
     </div>
@@ -98,10 +100,12 @@ if ($id != ''){
 
   <div class="campitem-cliente">
     <div class="campb">
+    <?php if($id !=''){?><div class="chk_alq_txt">Costo</div><?php };?>
       <label for="textfield"></label>
       <input type="text" name="costo" id="textfield" placeholder="Costo" value="<?php echo $row["costo"];?>"/>
     </div>    
     <div class="campb dospor">
+    <?php if($id !=''){?><div class="chk_alq_txt">Descripcion</div><?php };?>
       <label for="textfield"></label>
       <input type="text" name="descripcion" id="textfield" placeholder="Descripcion" value="<?php echo $row["descripcion"];?>"/>
     </div>
@@ -112,10 +116,12 @@ if ($id != ''){
 
   <div class="campitem-cliente">
     <div class="campb">
+    <?php if($id !=''){?><div class="chk_alq_txt">Cantidad</div><?php };?>
       <label for="textfield"></label>
       <input type="number" name="cantidad" id="textfield" placeholder="Cantidad" value="<?php echo $row["cantidad"];?>"/>
     </div>    
     <div class="campb dospor">
+    <?php if($id !=''){?><div class="chk_alq_txt">Fecha de Actualizacion de Stock</div><?php };?>
       <label for="textfield"></label>
       <input type="datetime" name="fecha" placeholder="Fecha de Actualizacion" class="inputgral"
        id="datetimepicker" value="<?php if($id == ''){echo date("Y-m-d").' 9:00';}else{echo $row["fecha"];};?>"/>
